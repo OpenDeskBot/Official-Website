@@ -1,0 +1,640 @@
+{
+  "text": "大家好，我是小歪，我是一款会注视主人，会说话和比啊唧嘴的AI开源桌面机器人。",
+  "request": {
+    "am": "fastspeech2_csmsc",
+    "voc": "hifigan_csmsc",
+    "lang": "zh",
+    "spk_id": 0,
+    "device": "cpu"
+  },
+  "phoneme_meta": {
+    "note": "以下为 FastSpeech2 预测的每音素梅尔帧数换算得到的时间轴；与真实发音边界可能存在偏差，仅供对齐与调试参考。",
+    "sample_rate": 24000,
+    "hop_samples": 300
+  },
+  "wav_filename": "tts_export_1779355029_9f61c778.wav",
+  "wav_path": "D:\\Users\\Wanto-mi-32\\Downloads\\AI-develop\\飞浆测试\\PaddleSpeech\\tts_web_demo\\generated_audio\\tts_export_1779355029_9f61c778.wav",
+  "phoneme_segments": [
+    {
+      "sentence_index": 0,
+      "phone": "d",
+      "phone_id": 40,
+      "duration_frames": 4,
+      "start_sec": 0.0,
+      "end_sec": 0.05,
+      "duration_sec": 0.05,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 0,
+      "phone": "a4",
+      "phone_id": 5,
+      "duration_frames": 7,
+      "start_sec": 0.05,
+      "end_sec": 0.1375,
+      "duration_sec": 0.0875,
+      "viseme_key": "AH"
+    },
+    {
+      "sentence_index": 0,
+      "phone": "j",
+      "phone_id": 151,
+      "duration_frames": 6,
+      "start_sec": 0.1375,
+      "end_sec": 0.2125,
+      "duration_sec": 0.075,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 0,
+      "phone": "ia1",
+      "phone_id": 77,
+      "duration_frames": 9,
+      "start_sec": 0.2125,
+      "end_sec": 0.325,
+      "duration_sec": 0.1125,
+      "viseme_key": "AO"
+    },
+    {
+      "sentence_index": 0,
+      "phone": "h",
+      "phone_id": 71,
+      "duration_frames": 13,
+      "start_sec": 0.325,
+      "end_sec": 0.4875,
+      "duration_sec": 0.1625,
+      "viseme_key": "KG"
+    },
+    {
+      "sentence_index": 0,
+      "phone": "ao3",
+      "phone_id": 29,
+      "duration_frames": 21,
+      "start_sec": 0.4875,
+      "end_sec": 0.75,
+      "duration_sec": 0.2625,
+      "viseme_key": "AO"
+    },
+    {
+      "sentence_index": 0,
+      "phone": "sp",
+      "phone_id": 179,
+      "duration_frames": 4,
+      "start_sec": 0.75,
+      "end_sec": 0.8,
+      "duration_sec": 0.05,
+      "viseme_key": "REST"
+    },
+    {
+      "sentence_index": 1,
+      "phone": "uo3",
+      "phone_id": 232,
+      "duration_frames": 11,
+      "start_sec": 0.8,
+      "end_sec": 0.9375,
+      "duration_sec": 0.1375,
+      "viseme_key": "OH"
+    },
+    {
+      "sentence_index": 1,
+      "phone": "sh",
+      "phone_id": 177,
+      "duration_frames": 8,
+      "start_sec": 0.9375,
+      "end_sec": 1.0375,
+      "duration_sec": 0.1,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 1,
+      "phone": "iii4",
+      "phone_id": 116,
+      "duration_frames": 5,
+      "start_sec": 1.0375,
+      "end_sec": 1.1,
+      "duration_sec": 0.0625,
+      "viseme_key": "AH"
+    },
+    {
+      "sentence_index": 1,
+      "phone": "x",
+      "phone_id": 260,
+      "duration_frames": 8,
+      "start_sec": 1.1,
+      "end_sec": 1.2,
+      "duration_sec": 0.1,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 1,
+      "phone": "iao3",
+      "phone_id": 98,
+      "duration_frames": 10,
+      "start_sec": 1.2,
+      "end_sec": 1.325,
+      "duration_sec": 0.125,
+      "viseme_key": "AH"
+    },
+    {
+      "sentence_index": 1,
+      "phone": "uai1",
+      "phone_id": 193,
+      "duration_frames": 24,
+      "start_sec": 1.325,
+      "end_sec": 1.625,
+      "duration_sec": 0.3,
+      "viseme_key": "AH"
+    },
+    {
+      "sentence_index": 1,
+      "phone": "sp",
+      "phone_id": 179,
+      "duration_frames": 3,
+      "start_sec": 1.625,
+      "end_sec": 1.6625,
+      "duration_sec": 0.0375,
+      "viseme_key": "REST"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "uo3",
+      "phone_id": 232,
+      "duration_frames": 11,
+      "start_sec": 1.6625,
+      "end_sec": 1.8,
+      "duration_sec": 0.1375,
+      "viseme_key": "OH"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "sh",
+      "phone_id": 177,
+      "duration_frames": 9,
+      "start_sec": 1.8,
+      "end_sec": 1.9125,
+      "duration_sec": 0.1125,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "iii4",
+      "phone_id": 116,
+      "duration_frames": 9,
+      "start_sec": 1.9125,
+      "end_sec": 2.025,
+      "duration_sec": 0.1125,
+      "viseme_key": "AH"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "i4",
+      "phone_id": 75,
+      "duration_frames": 6,
+      "start_sec": 2.025,
+      "end_sec": 2.1,
+      "duration_sec": 0.075,
+      "viseme_key": "EE"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "k",
+      "phone_id": 152,
+      "duration_frames": 10,
+      "start_sec": 2.1,
+      "end_sec": 2.225,
+      "duration_sec": 0.125,
+      "viseme_key": "KG"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "uan3",
+      "phone_id": 201,
+      "duration_frames": 10,
+      "start_sec": 2.225,
+      "end_sec": 2.35,
+      "duration_sec": 0.125,
+      "viseme_key": "AH"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "h",
+      "phone_id": 71,
+      "duration_frames": 8,
+      "start_sec": 2.35,
+      "end_sec": 2.45,
+      "duration_sec": 0.1,
+      "viseme_key": "KG"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "uei4",
+      "phone_id": 214,
+      "duration_frames": 10,
+      "start_sec": 2.45,
+      "end_sec": 2.575,
+      "duration_sec": 0.125,
+      "viseme_key": "OU"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "zh",
+      "phone_id": 262,
+      "duration_frames": 9,
+      "start_sec": 2.575,
+      "end_sec": 2.6875,
+      "duration_sec": 0.1125,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "u4",
+      "phone_id": 186,
+      "duration_frames": 6,
+      "start_sec": 2.6875,
+      "end_sec": 2.7625,
+      "duration_sec": 0.075,
+      "viseme_key": "OO"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "sh",
+      "phone_id": 177,
+      "duration_frames": 7,
+      "start_sec": 2.7625,
+      "end_sec": 2.85,
+      "duration_sec": 0.0875,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "iii4",
+      "phone_id": 116,
+      "duration_frames": 7,
+      "start_sec": 2.85,
+      "end_sec": 2.9375,
+      "duration_sec": 0.0875,
+      "viseme_key": "AH"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "zh",
+      "phone_id": 262,
+      "duration_frames": 8,
+      "start_sec": 2.9375,
+      "end_sec": 3.0375,
+      "duration_sec": 0.1,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "u3",
+      "phone_id": 185,
+      "duration_frames": 7,
+      "start_sec": 3.0375,
+      "end_sec": 3.125,
+      "duration_sec": 0.0875,
+      "viseme_key": "OO"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "r",
+      "phone_id": 175,
+      "duration_frames": 7,
+      "start_sec": 3.125,
+      "end_sec": 3.2125,
+      "duration_sec": 0.0875,
+      "viseme_key": "R"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "en2",
+      "phone_id": 52,
+      "duration_frames": 16,
+      "start_sec": 3.2125,
+      "end_sec": 3.4125,
+      "duration_sec": 0.2,
+      "viseme_key": "N"
+    },
+    {
+      "sentence_index": 2,
+      "phone": "sp",
+      "phone_id": 179,
+      "duration_frames": 7,
+      "start_sec": 3.4125,
+      "end_sec": 3.5,
+      "duration_sec": 0.0875,
+      "viseme_key": "REST"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "h",
+      "phone_id": 71,
+      "duration_frames": 10,
+      "start_sec": 3.5,
+      "end_sec": 3.625,
+      "duration_sec": 0.125,
+      "viseme_key": "KG"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "uei4",
+      "phone_id": 214,
+      "duration_frames": 7,
+      "start_sec": 3.625,
+      "end_sec": 3.7125,
+      "duration_sec": 0.0875,
+      "viseme_key": "OU"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "sh",
+      "phone_id": 177,
+      "duration_frames": 9,
+      "start_sec": 3.7125,
+      "end_sec": 3.825,
+      "duration_sec": 0.1125,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "uo1",
+      "phone_id": 230,
+      "duration_frames": 7,
+      "start_sec": 3.825,
+      "end_sec": 3.9125,
+      "duration_sec": 0.0875,
+      "viseme_key": "OH"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "h",
+      "phone_id": 71,
+      "duration_frames": 8,
+      "start_sec": 3.9125,
+      "end_sec": 4.0125,
+      "duration_sec": 0.1,
+      "viseme_key": "KG"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "ua4",
+      "phone_id": 191,
+      "duration_frames": 13,
+      "start_sec": 4.0125,
+      "end_sec": 4.175,
+      "duration_sec": 0.1625,
+      "viseme_key": "AH"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "h",
+      "phone_id": 71,
+      "duration_frames": 11,
+      "start_sec": 4.175,
+      "end_sec": 4.3125,
+      "duration_sec": 0.1375,
+      "viseme_key": "KG"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "e2",
+      "phone_id": 42,
+      "duration_frames": 10,
+      "start_sec": 4.3125,
+      "end_sec": 4.4375,
+      "duration_sec": 0.125,
+      "viseme_key": "EH"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "b",
+      "phone_id": 37,
+      "duration_frames": 7,
+      "start_sec": 4.4375,
+      "end_sec": 4.525,
+      "duration_sec": 0.0875,
+      "viseme_key": "BMP"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "i3",
+      "phone_id": 74,
+      "duration_frames": 11,
+      "start_sec": 4.525,
+      "end_sec": 4.6625,
+      "duration_sec": 0.1375,
+      "viseme_key": "EE"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "a5",
+      "phone_id": 6,
+      "duration_frames": 12,
+      "start_sec": 4.6625,
+      "end_sec": 4.8125,
+      "duration_sec": 0.15,
+      "viseme_key": "AH"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "j",
+      "phone_id": 151,
+      "duration_frames": 7,
+      "start_sec": 4.8125,
+      "end_sec": 4.9,
+      "duration_sec": 0.0875,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "i2",
+      "phone_id": 73,
+      "duration_frames": 9,
+      "start_sec": 4.9,
+      "end_sec": 5.0125,
+      "duration_sec": 0.1125,
+      "viseme_key": "EE"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "z",
+      "phone_id": 261,
+      "duration_frames": 8,
+      "start_sec": 5.0125,
+      "end_sec": 5.1125,
+      "duration_sec": 0.1,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "uei3",
+      "phone_id": 213,
+      "duration_frames": 8,
+      "start_sec": 5.1125,
+      "end_sec": 5.2125,
+      "duration_sec": 0.1,
+      "viseme_key": "OU"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "d",
+      "phone_id": 40,
+      "duration_frames": 5,
+      "start_sec": 5.2125,
+      "end_sec": 5.275,
+      "duration_sec": 0.0625,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "e5",
+      "phone_id": 45,
+      "duration_frames": 3,
+      "start_sec": 5.275,
+      "end_sec": 5.3125,
+      "duration_sec": 0.0375,
+      "viseme_key": "EH"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "k",
+      "phone_id": 152,
+      "duration_frames": 9,
+      "start_sec": 5.3125,
+      "end_sec": 5.425,
+      "duration_sec": 0.1125,
+      "viseme_key": "KG"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "ai1",
+      "phone_id": 7,
+      "duration_frames": 10,
+      "start_sec": 5.425,
+      "end_sec": 5.55,
+      "duration_sec": 0.125,
+      "viseme_key": "EH"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "van2",
+      "phone_id": 245,
+      "duration_frames": 11,
+      "start_sec": 5.55,
+      "end_sec": 5.6875,
+      "duration_sec": 0.1375,
+      "viseme_key": "REST"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "zh",
+      "phone_id": 262,
+      "duration_frames": 9,
+      "start_sec": 5.6875,
+      "end_sec": 5.8,
+      "duration_sec": 0.1125,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "uo1",
+      "phone_id": 230,
+      "duration_frames": 6,
+      "start_sec": 5.8,
+      "end_sec": 5.875,
+      "duration_sec": 0.075,
+      "viseme_key": "OH"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "m",
+      "phone_id": 154,
+      "duration_frames": 8,
+      "start_sec": 5.875,
+      "end_sec": 5.975,
+      "duration_sec": 0.1,
+      "viseme_key": "BMP"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "ian4",
+      "phone_id": 85,
+      "duration_frames": 9,
+      "start_sec": 5.975,
+      "end_sec": 6.0875,
+      "duration_sec": 0.1125,
+      "viseme_key": "AH"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "j",
+      "phone_id": 151,
+      "duration_frames": 9,
+      "start_sec": 6.0875,
+      "end_sec": 6.2,
+      "duration_sec": 0.1125,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "i1",
+      "phone_id": 72,
+      "duration_frames": 6,
+      "start_sec": 6.2,
+      "end_sec": 6.275,
+      "duration_sec": 0.075,
+      "viseme_key": "EE"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "q",
+      "phone_id": 174,
+      "duration_frames": 9,
+      "start_sec": 6.275,
+      "end_sec": 6.3875,
+      "duration_sec": 0.1125,
+      "viseme_key": "S"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "i4",
+      "phone_id": 75,
+      "duration_frames": 8,
+      "start_sec": 6.3875,
+      "end_sec": 6.4875,
+      "duration_sec": 0.1,
+      "viseme_key": "EE"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "r",
+      "phone_id": 175,
+      "duration_frames": 6,
+      "start_sec": 6.4875,
+      "end_sec": 6.5625,
+      "duration_sec": 0.075,
+      "viseme_key": "R"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "en2",
+      "phone_id": 52,
+      "duration_frames": 15,
+      "start_sec": 6.5625,
+      "end_sec": 6.75,
+      "duration_sec": 0.1875,
+      "viseme_key": "N"
+    },
+    {
+      "sentence_index": 3,
+      "phone": "sp",
+      "phone_id": 179,
+      "duration_frames": 6,
+      "start_sec": 6.75,
+      "end_sec": 6.825,
+      "duration_sec": 0.075,
+      "viseme_key": "REST"
+    }
+  ],
+  "viseme_catalog_note": "viseme_key 与网页 static/phoneme_face.js 中 17 视位一致：REST/EE/EH/AH/AO/AW/OH/OO/OU/BMP/CHJH/FV/R/L/N/KG/S"
+}

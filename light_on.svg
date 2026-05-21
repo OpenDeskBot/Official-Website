@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="homepage style light on">
+  <title>homepage style light on</title>
+  <!-- transparent canvas for reuse -->
+  <rect x="0" y="0" width="320" height="240" fill="transparent"/>
+  <!-- only two eyes and one mouth, no round face -->
+  <g id="avatar-core">
+    <!-- normal eyes before switch -->
+    <g id="normal-eyes" fill="#ffffff">
+      <circle cx="128" cy="102" r="4.7">
+        <animate attributeName="opacity" dur="2.8s" repeatCount="indefinite" values="1;1;0;0;1" keyTimes="0;0.18;0.25;0.82;1"/>
+      </circle>
+      <circle cx="192" cy="102" r="4.7">
+        <animate attributeName="opacity" dur="2.8s" repeatCount="indefinite" values="1;1;0;0;1" keyTimes="0;0.18;0.25;0.82;1"/>
+      </circle>
+    </g>
+    <!-- bulb eyes after switch -->
+    <g id="bulb-eyes" fill="#fef08a" font-size="20" font-family="Segoe UI Emoji, Apple Color Emoji, Noto Color Emoji, sans-serif">
+      <text x="120" y="110">&#x1F4A1;
+        <animate attributeName="opacity" dur="2.8s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.18;0.25;0.82;1"/>
+      </text>
+      <text x="184" y="110">&#x1F4A1;
+        <animate attributeName="opacity" dur="2.8s" repeatCount="indefinite" values="0;0;1;1;0" keyTimes="0;0.18;0.25;0.82;1"/>
+      </text>
+    </g>
+    <!-- rest mouth -->
+    <rect x="150.5" y="138.5" width="19" height="12" rx="4.2" ry="4.2" fill="none" stroke="#ffffff" stroke-width="3"/>
+  </g>
+  <!-- flash overlay -->
+  <rect x="0" y="0" width="320" height="240" fill="#ffffff" opacity="0">
+    <animate attributeName="opacity" dur="2.8s" repeatCount="indefinite" values="0;0.75;0;0;0" keyTimes="0;0.06;0.12;0.5;1"/>
+  </rect>
+</svg>

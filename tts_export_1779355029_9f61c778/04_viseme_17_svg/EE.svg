@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 96" role="img" aria-label="EE i/ee 扁窄">
+  <title>EE i/ee 扁窄</title>
+  <!-- 这里使用透明背景，方便直接叠加到别的项目画布。 -->
+  <rect x="0" y="0" width="160" height="96" fill="transparent"/>
+  <!-- 这里沿用首页小人样式：两眼+一嘴，不绘制圆形大脸。 -->
+  <g fill="none" stroke="#ffffff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="28" r="6"/>
+    <circle cx="105" cy="28" r="6"/>
+    <rect x="67.60" y="45.80" width="24.80" height="4.40" rx="1.10" ry="1.10"/>
+  </g>
+  <path d="M 69.09 47.00 L 90.91 47.00" stroke="#ffffff" stroke-width="1.5" opacity="0.20"/>
+  <path d="M 77.27 48.44 L 80.00 51.30 L 82.73 48.44 Z" fill="#ffffff" opacity="0.00"/>
+</svg>

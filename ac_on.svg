@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="homepage style ac on">
+  <title>homepage style ac on</title>
+  <!-- transparent canvas for reuse -->
+  <rect x="0" y="0" width="320" height="240" fill="transparent"/>
+  <!-- slight shake for cooling effect -->
+  <g id="avatar-core">
+    <animateTransform attributeName="transform" attributeType="XML" type="translate" dur="0.45s" repeatCount="indefinite" values="0 0; 0.8 -0.4; -0.8 0.5; 0 0"/>
+    <!-- snow eyes -->
+    <g stroke="#93c5fd" stroke-width="2.2" stroke-linecap="round" fill="none">
+      <path d="M 123 102 L 133 102 M 128 97 L 128 107 M 124 98 L 132 106 M 132 98 L 124 106"/>
+      <path d="M 187 102 L 197 102 M 192 97 L 192 107 M 188 98 L 196 106 M 196 98 L 188 106"/>
+    </g>
+    <!-- rest mouth -->
+    <rect x="150.5" y="138.5" width="19" height="12" rx="4.2" ry="4.2" fill="none" stroke="#ffffff" stroke-width="3"/>
+  </g>
+  <!-- airflow lines -->
+  <g stroke="#bae6fd" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.9">
+    <path d="M 246 56 Q 226 66 206 60 Q 186 54 166 64">
+      <animateTransform attributeName="transform" type="translate" dur="2.2s" repeatCount="indefinite" values="0 0; -18 8; -36 16"/>
+      <animate attributeName="opacity" dur="2.2s" repeatCount="indefinite" values="0;0.85;0.85;0" keyTimes="0;0.18;0.72;1"/>
+    </path>
+    <path d="M 256 76 Q 236 86 214 80 Q 194 74 174 84">
+      <animateTransform attributeName="transform" type="translate" dur="2.2s" begin="0.6s" repeatCount="indefinite" values="0 0; -18 8; -36 16"/>
+      <animate attributeName="opacity" dur="2.2s" begin="0.6s" repeatCount="indefinite" values="0;0.85;0.85;0" keyTimes="0;0.18;0.72;1"/>
+    </path>
+  </g>
+</svg>

@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小歪 OpenDeskBot - 灵动拟人的 AI 桌面伙伴</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0a;
+  --card: #141414;
+  --border: #222;
+  --text: #e8e8e8;
+  --dim: #888;
+  --accent: #4f8cff;
+  --accent2: #a78bfa;
+  --green: #34d399;
+  --orange: #fb923c;
+  --pink: #f472b6;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ===== NAV ===== */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: rgba(10,10,10,.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 64px;
+}
+nav .logo { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+nav .logo span { color: var(--accent); }
+nav .links a {
+  color: var(--dim); text-decoration: none; font-size: 14px; margin-left: 32px;
+  transition: color .2s;
+}
+nav .links a:hover { color: var(--text); }
+nav .cta {
+  background: var(--accent); color: #fff; border: none; border-radius: 8px;
+  padding: 8px 20px; font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: transform .15s, box-shadow .2s;
+}
+nav .cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(79,140,255,.35); }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  align-items: flex-start; justify-content: center; text-align: left;
+  padding: 120px 38% 80px 48px; position: relative;
+}
+.hero::before {
+  content: ''; position: absolute; top: 20%; left: 25%; transform: translate(-50%,-50%);
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(79,140,255,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero h1 {
+  font-size: clamp(48px, 7vw, 80px); font-weight: 800; letter-spacing: -2px;
+  line-height: 1.1; margin-bottom: 24px;
+}
+.hero h1 .highlight {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero p {
+  font-size: 20px; color: var(--dim); max-width: 560px; margin-bottom: 48px;
+}
+.hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; justify-content: flex-start; }
+.btn-primary {
+  background: var(--accent); color: #fff; border: none; border-radius: 12px;
+  padding: 16px 36px; font-size: 17px; font-weight: 600; cursor: pointer;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  transition: transform .15s, box-shadow .2s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(79,140,255,.3); }
+.btn-secondary {
+  background: transparent; color: var(--text); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 36px; font-size: 17px; font-weight: 600;
+  cursor: pointer; text-decoration: none; transition: border-color .2s;
+}
+.btn-secondary:hover { border-color: var(--dim); }
+
+/* ===== SECTION ===== */
+section { padding: 120px 24px; max-width: 1200px; margin: 0 auto; }
+.section-label {
+  font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--accent); margin-bottom: 16px;
+}
+.section-title {
+  font-size: clamp(32px, 4vw, 52px); font-weight: 800; letter-spacing: -1.5px;
+  line-height: 1.15; margin-bottom: 20px;
+}
+.section-desc {
+  font-size: 18px; color: var(--dim); max-width: 600px; margin-bottom: 64px;
+}
+
+/* ===== FEATURES GRID ===== */
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+.feature-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+  padding: 36px; transition: border-color .3s, transform .2s;
+}
+.feature-card:hover { border-color: #333; transform: translateY(-4px); }
+.feature-icon {
+  width: 52px; height: 52px; border-radius: 14px; display: flex;
+  align-items: center; justify-content: center; font-size: 24px; margin-bottom: 20px;
+}
+.feature-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+.feature-card p { font-size: 15px; color: var(--dim); line-height: 1.7; }
+/* 未来计划功能卡片：虚线边框 + 角标 */
+.feature-card.future { border-style: dashed; border-color: #2a2a2a; opacity: 0.92; }
+.feature-card.future:hover { border-color: #444; }
+.badge-plan {
+  display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.5px;
+  padding: 3px 10px; border-radius: 20px; margin-bottom: 12px;
+  background: rgba(167,139,250,.15); color: var(--accent2); border: 1px solid rgba(167,139,250,.25);
+}
+.badge-plan.soon { background: rgba(251,146,60,.12); color: var(--orange); border-color: rgba(251,146,60,.25); }
+.demo-text .badge-plan { margin-bottom: 14px; }
+.features-future-label {
+  grid-column: 1 / -1; font-size: 13px; color: var(--dim); letter-spacing: 1px;
+  margin-top: 8px; padding-top: 16px; border-top: 1px dashed var(--border);
+}
+
+.icon-blue { background: rgba(79,140,255,.12); }
+.icon-purple { background: rgba(167,139,250,.12); }
+.icon-green { background: rgba(52,211,153,.12); }
+.icon-orange { background: rgba(251,146,60,.12); }
+.icon-pink { background: rgba(244,114,182,.12); }
+.icon-yellow { background: rgba(251,211,74,.12); }
+
+/* ===== DEMO SECTION ===== */
+.demo-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center;
+}
+.demo-grid.reverse { direction: rtl; }
+.demo-grid.reverse > * { direction: ltr; }
+.demo-text h3 { font-size: 28px; font-weight: 700; margin-bottom: 16px; }
+.demo-text p { font-size: 16px; color: var(--dim); margin-bottom: 24px; }
+.demo-text ul { list-style: none; }
+.demo-text ul li {
+  font-size: 15px; color: var(--dim); padding: 6px 0; padding-left: 24px; position: relative;
+}
+.demo-text ul li::before {
+  content: '✓'; position: absolute; left: 0; color: var(--green); font-weight: 700;
+}
+.demo-visual {
+  background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+  aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;
+  overflow: hidden; position: relative;
+}
+.demo-visual .placeholder {
+  font-size: 64px; opacity: .6;
+}
+
+/* ===== COST SECTION ===== */
+.cost-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.cost-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+  padding: 40px 32px; text-align: center; transition: border-color .3s, transform .2s;
+}
+.cost-card:hover { border-color: #333; transform: translateY(-4px); }
+.cost-card .price {
+  font-size: 48px; font-weight: 800; letter-spacing: -2px;
+  background: linear-gradient(135deg, var(--green), var(--accent));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin: 16px 0 8px;
+}
+.cost-card .unit { font-size: 14px; color: var(--dim); margin-bottom: 20px; }
+.cost-card ul { list-style: none; text-align: left; }
+.cost-card ul li {
+  font-size: 14px; color: var(--dim); padding: 6px 0; padding-left: 20px; position: relative;
+}
+.cost-card ul li::before {
+  content: '•'; position: absolute; left: 0; color: var(--accent); font-weight: 700;
+}
+.cost-card.featured {
+  border-color: var(--accent); position: relative;
+}
+.cost-card.featured::before {
+  content: '推荐配置'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--accent); color: #fff; font-size: 12px; font-weight: 600;
+  padding: 4px 14px; border-radius: 20px;
+}
+
+/* ===== HOW IT WORKS ===== */
+.steps {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  counter-reset: step;
+}
+.step p { font-size: 13px; color: var(--dim); line-height: 1.65; }
+.step {
+  background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+  padding: 32px 24px; text-align: center; position: relative;
+  counter-increment: step;
+}
+.step::before {
+  content: counter(step); display: block;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff; font-weight: 700; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+}
+.step h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+
+/* ===== TECH ===== */
+.tech-badges {
+  display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px;
+}
+.tech-badge {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 20px; font-size: 14px; font-weight: 500;
+  display: flex; align-items: center; gap: 8px;
+}
+.tech-badge .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+}
+
+/* ===== CTA ===== */
+.cta-section {
+  text-align: center; padding: 120px 24px;
+  background: linear-gradient(180deg, transparent, rgba(79,140,255,.04));
+}
+.cta-section h2 {
+  font-size: clamp(36px, 5vw, 56px); font-weight: 800; letter-spacing: -1.5px;
+  margin-bottom: 20px;
+}
+.cta-section p { font-size: 18px; color: var(--dim); margin-bottom: 40px; }
+
+/* ===== FOOTER ===== */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 48px; display: flex; align-items: center; justify-content: space-between;
+  font-size: 13px; color: var(--dim);
+}
+footer a { color: var(--dim); text-decoration: none; }
+footer a:hover { color: var(--text); }
+
+/* ===== ANIMATIONS ===== */
+.fade-up {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  nav .links { display: none; }
+  .demo-grid, .demo-grid.reverse { grid-template-columns: 1fr; direction: ltr; }
+  .cost-cards { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+  section { padding: 80px 20px; }
+  footer { flex-direction: column; gap: 12px; text-align: center; }
+  .hero {
+    align-items: center; text-align: center;
+    padding: 120px 24px 80px;
+  }
+  .hero-buttons { justify-content: center; }
+  #robot3d { display: none; }
+}
+
+/* ===== 3D ROBOT CANVAS ===== */
+#robot3d {
+  position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 50; pointer-events: none;
+}
+
+/* ===== SPEAK BUTTON ===== */
+#speakBtn {
+  position: fixed;
+  bottom: 36px; right: 48px;
+  z-index: 200;
+  background: linear-gradient(135deg, #4f8cff, #a78bfa);
+  color: #fff; border: none; border-radius: 50px;
+  padding: 14px 26px; font-size: 15px; font-weight: 700;
+  cursor: pointer; pointer-events: auto;
+  box-shadow: 0 4px 24px rgba(79,140,255,0.45);
+  transition: transform 0.15s, box-shadow 0.2s;
+  display: flex; align-items: center; gap: 8px; letter-spacing: 0.3px;
+}
+#speakBtn:hover:not(:disabled) {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 8px 32px rgba(79,140,255,0.55), 0 0 0 6px rgba(79,140,255,0.12);
+}
+#speakBtn:disabled { cursor: default; background: linear-gradient(135deg, #3a6fd8, #7c5fbf); }
+#speakBtn.speaking { animation: speakPulse 1.1s ease-in-out infinite; }
+@keyframes speakPulse {
+  0%,100% { box-shadow: 0 4px 24px rgba(79,140,255,0.45), 0 0 0 0 rgba(79,140,255,0.25); }
+  50%      { box-shadow: 0 4px 24px rgba(79,140,255,0.45), 0 0 0 12px rgba(79,140,255,0.0); }
+}
+.speak-subtitle {
+  position: fixed; bottom: 90px; right: 48px; z-index: 200;
+  font-size: 11px; color: rgba(255,255,255,0.3);
+  letter-spacing: 0.5px; pointer-events: none; text-align: right;
+}
+@media (max-width: 768px) {
+  #speakBtn { bottom: 20px; right: 16px; padding: 12px 18px; font-size: 13px; }
+  .speak-subtitle { display: none; }
+}
+
+/* ===== DEBUG PANEL ===== */
+#debugPanel {
+  position: fixed; bottom: 20px; left: 20px; z-index: 200;
+  display: none;
+  background: rgba(15,15,20,0.92);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(79,140,255,0.25);
+  border-radius: 16px;
+  padding: 20px;
+  width: 340px;
+  font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+  font-size: 12px;
+  color: #ccc;
+  pointer-events: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(79,140,255,0.1) inset;
+}
+#debugPanel::-webkit-scrollbar { width: 4px; }
+#debugPanel::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+#debugPanel h3 {
+  font-size: 14px; font-weight: 700; color: #fff;
+  margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+#debugPanel h3 .dot { width: 8px; height: 8px; border-radius: 50%; background: #4f8cff; box-shadow: 0 0 8px #4f8cff; }
+#debugPanel .scroll-info {
+  background: rgba(79,140,255,0.08); border: 1px solid rgba(79,140,255,0.15);
+  border-radius: 8px; padding: 8px 12px; margin-bottom: 14px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+#debugPanel .scroll-info span { color: #4f8cff; font-weight: 700; font-size: 16px; }
+#debugPanel .slider-group { margin-bottom: 12px; }
+#debugPanel .slider-label {
+  display: flex; justify-content: space-between; margin-bottom: 4px;
+}
+#debugPanel .slider-label .val { color: #4f8cff; font-weight: 600; }
+#debugPanel input[type=range] {
+  -webkit-appearance: none; width: 100%; height: 6px;
+  background: #1e1e2a; border-radius: 3px; outline: none;
+}
+#debugPanel input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 16px; height: 16px;
+  background: #4f8cff; border-radius: 50%; cursor: pointer;
+  box-shadow: 0 0 8px rgba(79,140,255,0.5);
+}
+#debugPanel .btn-row { display: flex; gap: 8px; margin-bottom: 14px; }
+#debugPanel button {
+  flex: 1; padding: 8px 12px; border-radius: 8px; border: none;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.2s;
+}
+#debugPanel button:hover { transform: translateY(-1px); }
+#debugPanel .btn-save { background: #4f8cff; color: #fff; }
+#debugPanel .btn-save:hover { box-shadow: 0 4px 16px rgba(79,140,255,0.4); }
+#debugPanel .btn-export { background: #34d399; color: #fff; }
+#debugPanel .btn-export:hover { box-shadow: 0 4px 16px rgba(52,211,153,0.4); }
+#debugPanel .btn-clear { background: #ef4444; color: #fff; }
+#debugPanel .btn-clear:hover { box-shadow: 0 4px 16px rgba(239,68,68,0.4); }
+#debugPanel .btn-toggle { background: #a78bfa; color: #fff; }
+#debugPanel .btn-toggle:hover { box-shadow: 0 4px 16px rgba(167,139,250,0.4); }
+#debugPanel .kf-list { margin-top: 10px; }
+#debugPanel .kf-list h4 {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+  color: #666; margin-bottom: 8px;
+}
+#debugPanel .kf-item {
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255,255,255,0.03); border: 1px solid #222;
+  border-radius: 8px; padding: 6px 10px; margin-bottom: 4px;
+  font-size: 11px; cursor: pointer; transition: border-color 0.2s;
+}
+#debugPanel .kf-item:hover { border-color: #4f8cff; }
+#debugPanel .kf-item .kf-scroll { color: #4f8cff; font-weight: 700; min-width: 42px; }
+#debugPanel .kf-item .kf-vals { color: #888; }
+#debugPanel .kf-item .kf-del {
+  color: #666; background: none; border: none; cursor: pointer;
+  font-size: 14px; padding: 0 4px; flex: 0;
+}
+#debugPanel .kf-item .kf-del:hover { color: #ef4444; }
+#debugPanel .mode-indicator {
+  font-size: 11px; padding: 4px 8px; border-radius: 4px; text-align: center;
+  margin-bottom: 10px; font-weight: 600;
+}
+#debugPanel .mode-manual { background: rgba(251,146,60,0.15); color: #fb923c; }
+#debugPanel .mode-keyframe { background: rgba(52,211,153,0.15); color: #34d399; }
+#debugPanel .toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+  background: #34d399; color: #000; padding: 10px 24px; border-radius: 8px;
+  font-size: 13px; font-weight: 600; z-index: 999;
+  animation: toastIn 0.3s ease, toastOut 0.3s ease 1.5s forwards;
+}
+@keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(10px); } }
+@keyframes toastOut { to { opacity: 0; transform: translateX(-50%) translateY(-10px); } }
+#debugPanel .collapse-btn {
+  position: absolute; top: 12px; right: 14px;
+  background: none; border: none; color: #666; font-size: 18px;
+  cursor: pointer; padding: 0; flex: 0; line-height: 1;
+}
+#debugPanel .collapse-btn:hover { color: #fff; }
+#debugPanel.collapsed { width: auto; padding: 12px 16px; }
+#debugPanel.collapsed .panel-body { display: none; }
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">小歪 <span>OpenDeskBot</span></div>
+  <div class="links">
+    <a href="#features">亮点</a>
+    <a href="#demos">玩法</a>
+    <a href="#hardware">硬件清单</a>
+    <a href="#tech">技术</a>
+  </div>
+  <button class="cta" onclick="window.open('https://github.com/OpenDeskBot','_blank')">⭐ GitHub</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1 class="fade-up">灵动、拟人<br>的 <span class="highlight">桌面 AI 伙伴</span></h1>
+  <p class="fade-up">开源 · 会注视你 · 会说话会动表情<br>给你的桌子放一个真正有「性格」的小家伙</p>
+  <div class="hero-buttons fade-up">
+    <a href="https://github.com/OpenDeskBot" target="_blank" class="btn-primary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      开源 · 在 GitHub 上查看
+    </a>
+    <a href="#features" class="btn-secondary">了解更多 ↓</a>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-label fade-up">为什么好玩</div>
+  <div class="section-title fade-up">它不是音箱，它会「看」你</div>
+  <div class="section-desc fade-up">传统智能音箱等你喊名字才理你。小歪 OpenDeskBot 用摄像头感知你的眼神——你看它一眼，它就转头看你，灵动得像真伙伴。</div>
+
+  <div class="features">
+    <div class="feature-card fade-up">
+      <div class="feature-icon icon-blue">👀</div>
+      <h3>注视感知</h3>
+      <p>你看着它，它就看着你。基于人脸眼神检测算法，实现免唤醒的自然交互——比喊"小爱同学"酷多了。</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-icon icon-green">👄</div>
+      <h3>口型跟随</h3>
+      <p>说话时嘴巴真的在动，而且口型完全匹配语音。不是那种固定循环的嘴巴开合，是真正的同步。</p>
+    </div>
+    <div class="feature-card fade-up">
+      <div class="feature-icon icon-orange">🎭</div>
+      <h3>说话 + 动作 + 表情同时进行</h3>
+      <p>竞品做动作时不能说话，说话时不能动。我们把三件事融合到一起，表现更流畅、更自然。</p>
+    </div>
+    <p class="features-future-label fade-up">以下能力为<strong style="color:var(--accent2)">未来计划</strong>，持续开发中</p>
+    <div class="feature-card future fade-up">
+      <span class="badge-plan">未来计划</span>
+      <div class="feature-icon icon-purple">🐾</div>
+      <h3>AI 电子宠物</h3>
+      <p>给你的宠物拍张照，它就活了。你不在时趴着休息，你坐下时起床，你看它时兴奋摇尾巴，摸它时一脸享受。</p>
+    </div>
+    <div class="feature-card future fade-up">
+      <span class="badge-plan">未来计划</span>
+      <div class="feature-icon icon-pink">🎨</div>
+      <h3>画画表情</h3>
+      <p>小孩在纸上画个表情，拍张照，AI 就把它变成屏幕上灵动跃动的电子表情。亲子互动神器。</p>
+    </div>
+    <div class="feature-card future fade-up">
+      <span class="badge-plan">未来计划</span>
+      <div class="feature-icon icon-yellow">🗣️</div>
+      <h3>搞笑插嘴</h3>
+      <p>聊着聊着它突然冷不丁来一句，像个有自己想法的小家伙。不是那种一本正经的 AI 助手。</p>
+    </div>
+  </div>
+</section>
+
+<!-- DEMOS -->
+<section id="demos">
+  <div class="section-label fade-up">三大爆款玩法</div>
+  <div class="section-title fade-up">一个硬件，三种灵魂</div>
+
+  <div class="demo-grid fade-up" style="margin-bottom: 80px;">
+    <div class="demo-text">
+      <h3>🤖 AI 桌面助手</h3>
+      <p>不只是问答，它有脸、有身体、有表情。问天气时它会抬头看天，讲笑话时它会笑。</p>
+      <ul>
+        <li>语音对话 + 表情反馈</li>
+        <li>自然融合的多模态交互</li>
+        <li>可扩展的开放平台</li>
+        <li>支持自定义技能开发</li>
+      </ul>
+    </div>
+    <div class="demo-visual">
+      <div class="placeholder">🤖</div>
+    </div>
+  </div>
+
+  <div class="demo-grid reverse fade-up" style="margin-bottom: 80px;">
+    <div class="demo-text">
+      <h3>👀 注视感知</h3>
+      <p>不用打开 App，不用喊唤醒词。你看它一眼，它就转头看你——像真伙伴一样灵动回应。</p>
+      <ul>
+        <li>人脸眼神检测，免唤醒交互</li>
+        <li>头部跟随你的视线转动</li>
+        <li>靠近、离开时的灵动状态反馈</li>
+        <li>比传统音箱更自然、更拟人</li>
+      </ul>
+    </div>
+    <div class="demo-visual">
+      <div class="placeholder">👀</div>
+    </div>
+  </div>
+
+  <div class="demo-grid fade-up">
+    <div class="demo-text">
+      <span class="badge-plan soon">计划支持</span>
+      <h3>🏠 控制米家</h3>
+      <p>用语音和表情联动控制家里的智能设备。对小歪说一句，灯就亮、窗帘就动——桌面伙伴也是智能家居入口。</p>
+      <ul>
+        <li>米家设备语音控制（规划中）</li>
+        <li>指令执行时的表情与动作反馈</li>
+        <li>与现有米家生态无缝衔接</li>
+        <li>开源协议，社区可扩展更多品牌</li>
+      </ul>
+    </div>
+    <div class="demo-visual">
+      <div class="placeholder">🏠</div>
+    </div>
+  </div>
+</section>
+
+<!-- HARDWARE BOM -->
+<section id="hardware">
+  <div class="section-label fade-up">硬件清单</div>
+  <div class="section-title fade-up">开源 BOM，按需选配</div>
+  <div class="section-desc fade-up">全部器件开源可复刻，GitHub 提供原理图、BOM 与 3D 外壳文件。以下为推荐配置档位，可按需求增减模块。</div>
+
+  <div class="cost-cards">
+    <div class="cost-card fade-up">
+      <div style="font-size: 32px;">✨</div>
+      <div class="price" style="font-size:28px;-webkit-text-fill-color:var(--text)">基础配置</div>
+      <div class="unit">核心交互套件</div>
+      <ul>
+        <li>ESP32 主控板</li>
+        <li>双舵机（俯仰 + 偏航转头）</li>
+        <li>表情显示屏模组</li>
+        <li>供电与数据接口线材</li>
+        <li>3D 打印外壳（开源模型）</li>
+      </ul>
+    </div>
+    <div class="cost-card featured fade-up">
+      <div style="font-size: 32px;">👀</div>
+      <div class="price" style="font-size:28px;-webkit-text-fill-color:var(--text)">标准配置</div>
+      <div class="unit">推荐 · 含感知</div>
+      <ul>
+        <li>基础配置全部器件</li>
+        <li>摄像头模组</li>
+        <li>人脸 / 眼神检测算力支持</li>
+        <li>麦克风（语音输入）</li>
+        <li>扬声器（语音输出）</li>
+      </ul>
+    </div>
+    <div class="cost-card fade-up">
+      <div style="font-size: 32px;">🚀</div>
+      <div class="price" style="font-size:28px;-webkit-text-fill-color:var(--text)">完整配置</div>
+      <div class="unit">开发者全配</div>
+      <ul>
+        <li>标准配置全部器件</li>
+        <li>锂电池 + 充放电管理</li>
+        <li>无线配网模块（已集成 ESP32）</li>
+        <li>扩展 GPIO / I2C 接口</li>
+        <li>适合二次开发与米家联动实验</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="section-label fade-up">上手路径</div>
+  <div class="section-title fade-up">三步，通电就能聊</div>
+
+  <div class="steps">
+    <div class="step fade-up">
+      <h4>唤醒小歪</h4>
+      <p>接通电源，它便睁开双眼，灵动就绪</p>
+    </div>
+    <div class="step fade-up">
+      <h4>连 WiFi</h4>
+      <p>扫码配网即可，<strong>免账号体系</strong>，无需注册登录</p>
+    </div>
+    <div class="step fade-up">
+      <h4>直接开玩</h4>
+      <p>放在桌上立刻对话。<strong>免费 Token</strong> 额度可用；<strong>ASR、TTS 全免费</strong>。既可使用官方云端服务，也可<strong>自行部署</strong> ASR / LLM / TTS 全套链路。</p>
+    </div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section id="tech">
+  <div class="section-label fade-up">技术栈</div>
+  <div class="section-title fade-up">开放、可扩展、社区驱动</div>
+  <div class="section-desc fade-up">所有硬件设计和软件代码全部开源。基于成熟的 ESP32 生态，降低开发门槛。</div>
+
+  <div class="tech-badges fade-up">
+    <div class="tech-badge"><span class="dot" style="background:var(--accent)"></span>ESP32 主控</div>
+    <div class="tech-badge"><span class="dot" style="background:var(--green)"></span>Arduino / MicroPython</div>
+    <div class="tech-badge"><span class="dot" style="background:var(--purple)"></span>拟人表情引擎</div>
+    <div class="tech-badge"><span class="dot" style="background:var(--orange)"></span>灵动动作融合</div>
+    <div class="tech-badge"><span class="dot" style="background:var(--pink)"></span>OTA 一键烧录</div>
+    <div class="tech-badge"><span class="dot" style="background:var(--green)"></span>Web 调试平台</div>
+    <div class="tech-badge"><span class="dot" style="background:var(--accent)"></span>表情 / 动作编辑器</div>
+    <div class="tech-badge"><span class="dot" style="background:var(--orange)"></span>语音 ASR + LLM + TTS</div>
+    <div class="tech-badge"><span class="dot" style="background:var(--pink)"></span>人脸眼神检测</div>
+    <div class="tech-badge"><span class="dot" style="background:var(--accent)"></span>3D 打印外壳</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2 class="fade-up">迎接你的灵动桌面伙伴</h2>
+  <p class="fade-up">全开源 · 低成本 · 社区共建</p>
+  <div class="fade-up">
+    <a href="https://github.com/OpenDeskBot" target="_blank" class="btn-primary" style="font-size: 19px; padding: 18px 44px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      在 GitHub 上 Star →
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>小歪 OpenDeskBot · 开源桌面机器人</div>
+  <div style="display:flex; gap:24px;">
+    <a href="https://github.com/OpenDeskBot" target="_blank">GitHub</a>
+    <a href="#">文档</a>
+    <a href="#">社区</a>
+  </div>
+</footer>
+
+<!-- 3D ROBOT -->
+<canvas id="robot3d"></canvas>
+
+<!-- SPEAK BUTTON -->
+<div class="speak-subtitle">小歪的开场白</div>
+<button id="speakBtn" onclick="_speakXiaoWai(); this.classList.toggle('speaking', this.disabled)">
+  <span style="font-size:18px">👂</span>
+  <span>点我说话</span>
+</button>
+
+<!-- DEBUG PANEL -->
+<div id="debugPanel">
+  <button class="collapse-btn" onclick="togglePanel()" title="收起/展开">−</button>
+  <h3><span class="dot"></span> 机器人调参面板</h3>
+  <div class="panel-body">
+    <div class="scroll-info">
+      <span>当前滚动位置</span>
+      <span id="dbgScroll">0%</span>
+    </div>
+    <div id="modeIndicator" class="mode-indicator mode-manual">🎛️ 手动调节模式</div>
+    <div class="slider-group">
+      <div class="slider-label"><span>头部俯仰 (Pitch)</span><span class="val" id="valPitch">0.00</span></div>
+      <input type="range" id="sliderPitch" min="-1.2" max="1.2" step="0.01" value="0">
+    </div>
+    <div class="slider-group">
+      <div class="slider-label"><span>头部左右 (Yaw)</span><span class="val" id="valYaw">0.00</span></div>
+      <input type="range" id="sliderYaw" min="-1.0" max="1.0" step="0.01" value="0">
+    </div>
+    <div class="slider-group">
+      <div class="slider-label"><span>整体上下 (Y 位置)</span><span class="val" id="valY">0.00</span></div>
+      <input type="range" id="sliderY" min="-6" max="6" step="0.1" value="0">
+    </div>
+    <div class="btn-row">
+      <button class="btn-save" onclick="saveKeyframe()">💾 保存关键帧</button>
+      <button class="btn-toggle" onclick="toggleMode()">▶ 播放模式</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn-export" onclick="exportKeyframes()">📋 导出 JSON</button>
+      <button class="btn-clear" onclick="clearKeyframes()">🗑️ 清空全部</button>
+    </div>
+    <div class="kf-list">
+      <h4>已保存关键帧 (<span id="kfCount">0</span>)</h4>
+      <div id="kfListBody"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Intersection Observer for fade-up animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js';
+
+/* ========================================
+   SCENE SETUP
+   ======================================== */
+const canvas = document.getElementById('robot3d');
+const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.set(0, 0, 12);
+camera.lookAt(0, 0, 0);
+
+/* ========================================
+   LIGHTS
+   ======================================== */
+scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+
+const mainLight = new THREE.DirectionalLight(0xffffff, 1.8);
+mainLight.position.set(5, 8, 6);
+scene.add(mainLight);
+
+const fillLight = new THREE.DirectionalLight(0x4f8cff, 0.4);
+fillLight.position.set(-5, 3, -3);
+scene.add(fillLight);
+
+const rimLight = new THREE.PointLight(0xa78bfa, 0.8, 15);
+rimLight.position.set(-3, 4, -4);
+scene.add(rimLight);
+
+/* ========================================
+   MATERIALS
+   ======================================== */
+const matDark = new THREE.MeshStandardMaterial({
+  color: 0x1a1a1a, metalness: 0.75, roughness: 0.25
+});
+const matMid = new THREE.MeshStandardMaterial({
+  color: 0x2a2a2a, metalness: 0.6, roughness: 0.35
+});
+const matLight = new THREE.MeshStandardMaterial({
+  color: 0x333333, metalness: 0.5, roughness: 0.4
+});
+const matAccent = new THREE.MeshStandardMaterial({
+  color: 0x4f8cff, metalness: 0.4, roughness: 0.3,
+  emissive: 0x4f8cff, emissiveIntensity: 0.6
+});
+const matAccentDim = new THREE.MeshStandardMaterial({
+  color: 0x4f8cff, metalness: 0.4, roughness: 0.3,
+  emissive: 0x4f8cff, emissiveIntensity: 0.15
+});
+const matScreenFrame = new THREE.MeshStandardMaterial({
+  color: 0x111111, metalness: 0.9, roughness: 0.1
+});
+
+/* ========================================
+   FACE TEXTURE (Canvas2D → CanvasTexture)
+   ======================================== */
+const faceCanvas = document.createElement('canvas');
+faceCanvas.width = 320;
+faceCanvas.height = 240;
+const faceCtx = faceCanvas.getContext('2d');
+const faceTexture = new THREE.CanvasTexture(faceCanvas);
+faceTexture.minFilter = THREE.LinearFilter;
+faceTexture.magFilter = THREE.LinearFilter;
+
+const matFace = new THREE.MeshBasicMaterial({ map: faceTexture });
+
+/* ========================================
+   ROBOT CONSTRUCTION
+   ======================================== */
+const robot = new THREE.Group();
+
+// --- Base plate ---
+const base = new THREE.Mesh(
+  new THREE.BoxGeometry(2.6, 0.25, 1.6),
+  matDark
+);
+base.position.y = 0;
+robot.add(base);
+
+// Base edge accent strip
+const baseStrip = new THREE.Mesh(
+  new THREE.BoxGeometry(2.7, 0.04, 1.7),
+  matAccentDim
+);
+baseStrip.position.y = 0.145;
+robot.add(baseStrip);
+
+// Base feet (4 small rubber feet)
+const footGeo = new THREE.CylinderGeometry(0.12, 0.14, 0.06, 12);
+const footMat = matLight;
+[[-1, -0.6], [1, -0.6], [-1, 0.6], [1, 0.6]].forEach(([x, z]) => {
+  const foot = new THREE.Mesh(footGeo, footMat);
+  foot.position.set(x, -0.155, z);
+  robot.add(foot);
+});
+
+// --- Bottom servo housing (yaw servo) ---
+const servoBot = new THREE.Mesh(
+  new THREE.BoxGeometry(0.85, 0.55, 0.85),
+  matMid
+);
+servoBot.position.y = 0.4;
+robot.add(servoBot);
+
+// Servo label detail
+const servoLabel = new THREE.Mesh(
+  new THREE.BoxGeometry(0.4, 0.02, 0.3),
+  matLight
+);
+servoLabel.position.set(0, 0.68, 0.2);
+robot.add(servoLabel);
+
+// Servo horn ring (turntable)
+const hornRing = new THREE.Mesh(
+  new THREE.TorusGeometry(0.32, 0.04, 8, 24),
+  matAccent
+);
+hornRing.rotation.x = Math.PI / 2;
+hornRing.position.y = 0.7;
+robot.add(hornRing);
+
+// --- Neck / column ---
+const neck = new THREE.Mesh(
+  new THREE.CylinderGeometry(0.13, 0.18, 1.1, 16),
+  matMid
+);
+neck.position.y = 1.25;
+robot.add(neck);
+
+// Neck cable detail (thin torus wrapping)
+const cableGeo = new THREE.TorusGeometry(0.17, 0.02, 6, 16);
+[0.9, 1.15, 1.4].forEach(y => {
+  const cable = new THREE.Mesh(cableGeo, matLight);
+  cable.rotation.x = Math.PI / 2;
+  cable.position.y = y;
+  robot.add(cable);
+});
+
+// --- Head pivot (pitch joint) ---
+const headPivot = new THREE.Group();
+headPivot.position.y = 1.85;
+robot.add(headPivot);
+
+// Top servo housing (pitch servo)
+const servoTop = new THREE.Mesh(
+  new THREE.BoxGeometry(0.55, 0.45, 0.55),
+  matMid
+);
+servoTop.position.y = 0;
+headPivot.add(servoTop);
+
+// Side brackets (U-bracket for head mount)
+const bracketGeo = new THREE.BoxGeometry(0.06, 0.8, 0.35);
+const bracketL = new THREE.Mesh(bracketGeo, matDark);
+bracketL.position.set(-0.32, 0.3, 0);
+headPivot.add(bracketL);
+
+const bracketR = new THREE.Mesh(bracketGeo, matDark);
+bracketR.position.set(0.32, 0.3, 0);
+headPivot.add(bracketR);
+
+// Bracket bolts (visual details)
+const boltGeo = new THREE.CylinderGeometry(0.03, 0.03, 0.08, 8);
+[[-0.36, 0.55, 0], [0.36, 0.55, 0], [-0.36, 0.1, 0], [0.36, 0.1, 0]].forEach(([x, y, z]) => {
+  const bolt = new THREE.Mesh(boltGeo, matAccentDim);
+  bolt.rotation.z = Math.PI / 2;
+  bolt.position.set(x, y, z);
+  headPivot.add(bolt);
+});
+
+// --- Head body (screen housing) ---
+const headBody = new THREE.Mesh(
+  new THREE.BoxGeometry(2.4, 1.8, 0.55),
+  matDark
+);
+headBody.position.set(0, 1.1, 0);
+headPivot.add(headBody);
+
+// Screen bezel (slightly larger, inset feel)
+const bezel = new THREE.Mesh(
+  new THREE.BoxGeometry(2.25, 1.65, 0.04),
+  matScreenFrame
+);
+bezel.position.set(0, 1.1, 0.28);
+headPivot.add(bezel);
+
+// Screen face (displays the SVG-based face)
+const screen = new THREE.Mesh(
+  new THREE.PlaneGeometry(2.1, 1.5),
+  matFace
+);
+screen.position.set(0, 1.1, 0.305);
+headPivot.add(screen);
+
+// Screen glow rim (subtle accent border)
+const glowRimGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(2.15, 1.55, 0.01));
+const glowRimMat = new THREE.LineBasicMaterial({ color: 0x4f8cff, transparent: true, opacity: 0.3 });
+const glowRim = new THREE.LineSegments(glowRimGeo, glowRimMat);
+glowRim.position.set(0, 1.1, 0.31);
+headPivot.add(glowRim);
+
+// Back panel detail lines
+const backLineGeo = new THREE.BoxGeometry(1.8, 0.03, 0.01);
+[0.5, 0.9, 1.3, 1.7].forEach(y => {
+  const line = new THREE.Mesh(backLineGeo, matLight);
+  line.position.set(0, y, -0.28);
+  headPivot.add(line);
+});
+
+// Vent holes on back
+const ventGeo = new THREE.BoxGeometry(0.15, 0.04, 0.02);
+for (let i = 0; i < 5; i++) {
+  const vent = new THREE.Mesh(ventGeo, matLight);
+  vent.position.set(-0.6 + i * 0.3, 0.35, -0.28);
+  headPivot.add(vent);
+}
+
+// --- LED indicator on top ---
+const led = new THREE.Mesh(
+  new THREE.SphereGeometry(0.06, 12, 12),
+  matAccent
+);
+led.position.set(0, 2.05, 0.15);
+headPivot.add(led);
+
+const ledGlow = new THREE.PointLight(0x4f8cff, 0.6, 3);
+ledGlow.position.copy(led.position);
+headPivot.add(ledGlow);
+
+// --- Position robot in scene ---
+robot.position.set(5.5, -4.5, 0);
+robot.rotation.y = -0.15; // slightly angled toward center
+scene.add(robot);
+
+/* ========================================
+   FACE RENDERING (Canvas2D replicating SVG)
+   ======================================== */
+// ── Viseme mouth shapes (extracted from 17 SVG files, viewBox 160×96 → scaled to 320×240) ──
+// Each entry: { x, y, w, h, rx } for the mouth rect; teeth=topline opacity; tongue=triangle opacity
+// SVG coords are in 160×96 space; we render in 320×240 so scale=×2 for x/y/w/h (center offset: cx=160, cy=120)
+const VISEME = {
+  REST:  { x:73.10, y:46.00, w:13.80, h: 4.00, rx:1.00, teeth:0.00, tongue:0.00 },
+  EE:    { x:67.60, y:45.80, w:24.80, h: 4.40, rx:1.10, teeth:0.20, tongue:0.00 },
+  EH:    { x:67.10, y:45.00, w:25.80, h: 6.00, rx:1.80, teeth:0.15, tongue:0.00 },
+  AH:    { x:71.40, y:43.00, w:17.20, h:10.00, rx:4.50, teeth:0.00, tongue:0.00 },
+  AO:    { x:70.30, y:41.00, w:19.40, h:14.00, rx:6.50, teeth:0.00, tongue:0.00 },
+  AW:    { x:70.80, y:42.00, w:18.40, h:12.00, rx:5.50, teeth:0.00, tongue:0.00 },
+  OH:    { x:69.70, y:44.00, w:20.60, h: 8.00, rx:3.60, teeth:0.00, tongue:0.00 },
+  OO:    { x:74.50, y:43.20, w:11.00, h: 9.60, rx:4.60, teeth:0.00, tongue:0.00 },
+  OU:    { x:73.10, y:42.80, w:13.80, h:10.40, rx:4.80, teeth:0.00, tongue:0.00 },
+  BMP:   { x:69.70, y:47.00, w:20.60, h: 2.00, rx:0.90, teeth:0.00, tongue:0.00 },
+  CHJH:  { x:70.80, y:45.50, w:18.40, h: 5.00, rx:1.30, teeth:0.60, tongue:0.00 },
+  FV:    { x:70.30, y:46.00, w:19.40, h: 4.00, rx:1.00, teeth:1.00, tongue:0.00 },
+  R:     { x:74.30, y:44.00, w:11.40, h: 8.00, rx:3.00, teeth:0.00, tongue:0.00 },
+  L:     { x:70.80, y:44.80, w:18.40, h: 6.40, rx:1.60, teeth:0.00, tongue:1.00 },
+  N:     { x:70.80, y:45.20, w:18.40, h: 5.60, rx:1.80, teeth:0.25, tongue:0.00 },
+  KG:    { x:73.10, y:44.00, w:13.80, h: 8.00, rx:3.00, teeth:0.00, tongue:0.00 },
+  S:     { x:70.30, y:46.20, w:19.40, h: 3.60, rx:0.90, teeth:1.00, tongue:0.00 },
+};
+
+// Phoneme timeline (embedded from JSON)
+const PHONEME_SEGMENTS = [{"phone":"d","start_sec":0.0,"end_sec":0.05,"viseme_key":"S"},{"phone":"a4","start_sec":0.05,"end_sec":0.1375,"viseme_key":"AH"},{"phone":"j","start_sec":0.1375,"end_sec":0.2125,"viseme_key":"S"},{"phone":"ia1","start_sec":0.2125,"end_sec":0.325,"viseme_key":"AO"},{"phone":"h","start_sec":0.325,"end_sec":0.4875,"viseme_key":"KG"},{"phone":"ao3","start_sec":0.4875,"end_sec":0.75,"viseme_key":"AO"},{"phone":"sp","start_sec":0.75,"end_sec":0.8,"viseme_key":"REST"},{"phone":"uo3","start_sec":0.8,"end_sec":0.9375,"viseme_key":"OH"},{"phone":"sh","start_sec":0.9375,"end_sec":1.0375,"viseme_key":"S"},{"phone":"iii4","start_sec":1.0375,"end_sec":1.1,"viseme_key":"AH"},{"phone":"x","start_sec":1.1,"end_sec":1.2,"viseme_key":"S"},{"phone":"iao3","start_sec":1.2,"end_sec":1.325,"viseme_key":"AH"},{"phone":"uai1","start_sec":1.325,"end_sec":1.625,"viseme_key":"AH"},{"phone":"sp","start_sec":1.625,"end_sec":1.6625,"viseme_key":"REST"},{"phone":"uo3","start_sec":1.6625,"end_sec":1.8,"viseme_key":"OH"},{"phone":"sh","start_sec":1.8,"end_sec":1.9125,"viseme_key":"S"},{"phone":"iii4","start_sec":1.9125,"end_sec":2.025,"viseme_key":"AH"},{"phone":"i4","start_sec":2.025,"end_sec":2.1,"viseme_key":"EE"},{"phone":"k","start_sec":2.1,"end_sec":2.225,"viseme_key":"KG"},{"phone":"uan3","start_sec":2.225,"end_sec":2.35,"viseme_key":"AH"},{"phone":"h","start_sec":2.35,"end_sec":2.45,"viseme_key":"KG"},{"phone":"uei4","start_sec":2.45,"end_sec":2.575,"viseme_key":"OU"},{"phone":"zh","start_sec":2.575,"end_sec":2.6875,"viseme_key":"S"},{"phone":"u4","start_sec":2.6875,"end_sec":2.7625,"viseme_key":"OO"},{"phone":"sh","start_sec":2.7625,"end_sec":2.85,"viseme_key":"S"},{"phone":"iii4","start_sec":2.85,"end_sec":2.9375,"viseme_key":"AH"},{"phone":"zh","start_sec":2.9375,"end_sec":3.0375,"viseme_key":"S"},{"phone":"u3","start_sec":3.0375,"end_sec":3.125,"viseme_key":"OO"},{"phone":"r","start_sec":3.125,"end_sec":3.2125,"viseme_key":"R"},{"phone":"en2","start_sec":3.2125,"end_sec":3.4125,"viseme_key":"N"},{"phone":"sp","start_sec":3.4125,"end_sec":3.5,"viseme_key":"REST"},{"phone":"h","start_sec":3.5,"end_sec":3.625,"viseme_key":"KG"},{"phone":"uei4","start_sec":3.625,"end_sec":3.7125,"viseme_key":"OU"},{"phone":"sh","start_sec":3.7125,"end_sec":3.825,"viseme_key":"S"},{"phone":"uo1","start_sec":3.825,"end_sec":3.9125,"viseme_key":"OH"},{"phone":"h","start_sec":3.9125,"end_sec":4.0125,"viseme_key":"KG"},{"phone":"ua4","start_sec":4.0125,"end_sec":4.175,"viseme_key":"AH"},{"phone":"h","start_sec":4.175,"end_sec":4.3125,"viseme_key":"KG"},{"phone":"e2","start_sec":4.3125,"end_sec":4.4375,"viseme_key":"EH"},{"phone":"b","start_sec":4.4375,"end_sec":4.525,"viseme_key":"BMP"},{"phone":"i3","start_sec":4.525,"end_sec":4.6625,"viseme_key":"EE"},{"phone":"a5","start_sec":4.6625,"end_sec":4.8125,"viseme_key":"AH"},{"phone":"j","start_sec":4.8125,"end_sec":4.9,"viseme_key":"S"},{"phone":"i2","start_sec":4.9,"end_sec":5.0125,"viseme_key":"EE"},{"phone":"z","start_sec":5.0125,"end_sec":5.1125,"viseme_key":"S"},{"phone":"uei3","start_sec":5.1125,"end_sec":5.2125,"viseme_key":"OU"},{"phone":"d","start_sec":5.2125,"end_sec":5.275,"viseme_key":"S"},{"phone":"e5","start_sec":5.275,"end_sec":5.3125,"viseme_key":"EH"},{"phone":"k","start_sec":5.3125,"end_sec":5.425,"viseme_key":"KG"},{"phone":"ai1","start_sec":5.425,"end_sec":5.55,"viseme_key":"EH"},{"phone":"van2","start_sec":5.55,"end_sec":5.6875,"viseme_key":"REST"},{"phone":"zh","start_sec":5.6875,"end_sec":5.8,"viseme_key":"S"},{"phone":"uo1","start_sec":5.8,"end_sec":5.875,"viseme_key":"OH"},{"phone":"m","start_sec":5.875,"end_sec":5.975,"viseme_key":"BMP"},{"phone":"ian4","start_sec":5.975,"end_sec":6.0875,"viseme_key":"AH"},{"phone":"j","start_sec":6.0875,"end_sec":6.2,"viseme_key":"S"},{"phone":"i1","start_sec":6.2,"end_sec":6.275,"viseme_key":"EE"},{"phone":"q","start_sec":6.275,"end_sec":6.3875,"viseme_key":"S"},{"phone":"i4","start_sec":6.3875,"end_sec":6.4875,"viseme_key":"EE"},{"phone":"r","start_sec":6.4875,"end_sec":6.5625,"viseme_key":"R"},{"phone":"en2","start_sec":6.5625,"end_sec":6.75,"viseme_key":"N"},{"phone":"sp","start_sec":6.75,"end_sec":6.825,"viseme_key":"REST"}];
+
+// ── Lip sync state ──
+let blinkTimer = 0;
+let isSpeaking = false;
+let ttsAudio = null;
+// Current interpolated mouth shape (in 160×96 SVG space)
+let curMouth = { x:73.10, y:46.00, w:13.80, h:4.00, rx:1.00, teeth:0.00, tongue:0.00 };
+
+function getVisemeAtTime(t) {
+  for (const seg of PHONEME_SEGMENTS) {
+    if (t >= seg.start_sec && t < seg.end_sec) return VISEME[seg.viseme_key] || VISEME.REST;
+  }
+  return VISEME.REST;
+}
+
+function lerpMouth(a, b, alpha) {
+  const s = alpha * alpha * (3 - 2 * alpha); // smoothstep
+  return {
+    x:      a.x      + (b.x      - a.x)      * s,
+    y:      a.y      + (b.y      - a.y)      * s,
+    w:      a.w      + (b.w      - a.w)      * s,
+    h:      a.h      + (b.h      - a.h)      * s,
+    rx:     a.rx     + (b.rx     - a.rx)     * s,
+    teeth:  a.teeth  + (b.teeth  - a.teeth)  * s,
+    tongue: a.tongue + (b.tongue - a.tongue) * s,
+  };
+}
+
+function roundedRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function drawFace(dt) {
+  blinkTimer += dt;
+  const cycle = 4.2;
+  const t = (blinkTimer % cycle) / cycle;
+  const ctx = faceCtx;
+  const W = 320, H = 240;
+  // SVG viewBox is 160×96; we render in a 320×240 canvas
+  // Map SVG coords: scale ×2, center at (cx=160, cy=120)
+  // SVG face center ≈ (80, 48) → canvas (160, 96)
+  // Eyes are at svg cy=28 → canvas y = 28*2 + (120-96) = 56+24 = 80... let's offset vertically to upper half
+  const SX = 2, SY = 2;   // scale
+  const OX = 0, OY = 36;  // offset so face sits in upper 60% of canvas
+
+  // Screen background
+  ctx.fillStyle = '#080810';
+  ctx.fillRect(0, 0, W, H);
+
+  // Scan-line effect
+  ctx.strokeStyle = 'rgba(79,140,255,0.025)';
+  ctx.lineWidth = 1;
+  for (let sy = 0; sy < H; sy += 4) {
+    ctx.beginPath(); ctx.moveTo(0, sy); ctx.lineTo(W, sy); ctx.stroke();
+  }
+
+  // ── Update mouth via lip sync ──
+  const targetMouth = isSpeaking && ttsAudio
+    ? getVisemeAtTime(ttsAudio.currentTime)
+    : VISEME.REST;
+  // Smooth interpolation (alpha=0.25 → ~4 frames to reach target at 60fps)
+  curMouth = lerpMouth(curMouth, targetMouth, 0.28);
+
+  // ── Blink (suppressed while speaking) ──
+  const isBlinking = !isSpeaking && t >= 0.84 && t <= 0.95;
+
+  // ── Draw eyes ──
+  ctx.save();
+  if (!isBlinking) {
+    ctx.shadowColor = '#4f8cff'; ctx.shadowBlur = 22;
+    ctx.fillStyle = '#ffffff';
+    // Eyes in SVG space: cx=55,cy=28 and cx=105,cy=28; r=6
+    const eyeLX = 55 * SX + OX, eyeRX = 105 * SX + OX, eyeY = 28 * SY + OY;
+    const eyeR = 6 * SX;
+    ctx.beginPath(); ctx.arc(eyeLX, eyeY, eyeR, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(eyeRX, eyeY, eyeR, 0, Math.PI * 2); ctx.fill();
+    // Inner glow
+    ctx.shadowColor = '#a78bfa'; ctx.shadowBlur = 10;
+    ctx.beginPath(); ctx.arc(eyeLX, eyeY, eyeR * 0.45, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(eyeRX, eyeY, eyeR * 0.45, 0, Math.PI * 2); ctx.fill();
+  } else {
+    ctx.shadowColor = '#4f8cff'; ctx.shadowBlur = 12;
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 3.5; ctx.lineCap = 'round';
+    const eyeY = 28 * SY + OY;
+    ctx.beginPath(); ctx.moveTo(55*SX-8+OX, eyeY); ctx.lineTo(55*SX+8+OX, eyeY); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(105*SX-8+OX, eyeY); ctx.lineTo(105*SX+8+OX, eyeY); ctx.stroke();
+  }
+  ctx.restore();
+
+  // ── Draw mouth (viseme-driven) ──
+  const mx = curMouth.x * SX + OX;
+  const my = curMouth.y * SY + OY;
+  const mw = curMouth.w * SX;
+  const mh = curMouth.h * SY;
+  const mrx = curMouth.rx * SX;
+
+  ctx.save();
+  ctx.shadowColor = '#4f8cff'; ctx.shadowBlur = 12;
+  ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2.2;
+  roundedRect(ctx, mx, my, mw, mh, Math.min(mrx, mw/2, mh/2));
+  ctx.stroke();
+
+  // Teeth line (inner horizontal)
+  if (curMouth.teeth > 0.05) {
+    ctx.globalAlpha = curMouth.teeth * 0.9;
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.4; ctx.shadowBlur = 4;
+    const ty = my + mh * 0.35;
+    ctx.beginPath(); ctx.moveTo(mx + mrx*0.5, ty); ctx.lineTo(mx + mw - mrx*0.5, ty); ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+
+  // Tongue triangle
+  if (curMouth.tongue > 0.05) {
+    ctx.globalAlpha = curMouth.tongue * 0.9;
+    ctx.fillStyle = '#ffffff'; ctx.shadowBlur = 4;
+    const tx = mx + mw * 0.5, ty1 = my + mh * 0.45, ty2 = my + mh * 0.92;
+    const hw = mw * 0.18;
+    ctx.beginPath(); ctx.moveTo(tx - hw, ty1); ctx.lineTo(tx, ty2); ctx.lineTo(tx + hw, ty1); ctx.closePath(); ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+  ctx.restore();
+
+  faceTexture.needsUpdate = true;
+}
+
+// ── 开场白音频：wav 随仓库一起发布，GitHub Pages 静态托管可直接访问 ──
+const TTS_AUDIO_SRC = 'assets/xiaowai-intro.wav';
+
+/** 浏览器拦截自动播放时，仍驱动口型时间轴 */
+function playMouthOnly(btn) {
+  isSpeaking = true;
+  if (btn) { btn.textContent = '🔇 仅口型（无声）'; btn.disabled = true; }
+  let t = 0;
+  const tick = setInterval(() => {
+    t += 0.016;
+    if (t >= 6.825) {
+      clearInterval(tick);
+      isSpeaking = false;
+      if (btn) { btn.textContent = '👂 点我说话'; btn.disabled = false; }
+      curMouth = { ...VISEME.REST };
+    }
+  }, 16);
+}
+
+// ── TTS speak button ──
+window._speakXiaoWai = function() {
+  const btn = document.getElementById('speakBtn');
+  if (isSpeaking) return;
+
+  ttsAudio = new Audio(TTS_AUDIO_SRC);
+  ttsAudio.onplay = () => {
+    isSpeaking = true;
+    if (btn) { btn.textContent = '🔊 小歪说话中…'; btn.disabled = true; }
+  };
+  ttsAudio.onended = ttsAudio.onerror = () => {
+    isSpeaking = false;
+    if (btn) { btn.textContent = '👂 点我说话'; btn.disabled = false; }
+    curMouth = { ...VISEME.REST };
+  };
+  ttsAudio.play().catch(() => playMouthOnly(btn));
+};
+
+/* ========================================
+   SCROLL TRACKING & KEYFRAME SYSTEM
+   ======================================== */
+let scrollPercent = 0;
+let currentY = -4.5;
+let currentPitch = -0.55;
+let currentYaw = 0;
+let isManualMode = false;
+
+// Default keyframes (tuned values)
+const DEFAULT_KEYFRAMES = [
+  { scroll: 0,    pitch: -0.45, yaw: -0.3,  y: -6   },
+  { scroll: 1,    pitch:  0.58, yaw: -0.28, y: -0.1 }
+];
+
+// Keyframes: prefer localStorage, fall back to defaults
+let keyframes = loadKeyframes();
+
+function loadKeyframes() {
+  try {
+    const saved = localStorage.getItem('robotKeyframes');
+    return saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_KEYFRAMES));
+  } catch (e) { return JSON.parse(JSON.stringify(DEFAULT_KEYFRAMES)); }
+}
+function persistKeyframes() {
+  localStorage.setItem('robotKeyframes', JSON.stringify(keyframes));
+}
+
+function updateScroll() {
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  scrollPercent = docH > 0 ? Math.min(1, Math.max(0, window.scrollY / docH)) : 0;
+  document.getElementById('dbgScroll').textContent = (scrollPercent * 100).toFixed(1) + '%';
+
+  // In keyframe mode, update sliders to show interpolated values
+  if (!isManualMode && keyframes.length >= 2) {
+    const interp = interpolateKeyframes(scrollPercent);
+    document.getElementById('sliderPitch').value = interp.pitch;
+    document.getElementById('sliderYaw').value = interp.yaw;
+    document.getElementById('sliderY').value = interp.y;
+    document.getElementById('valPitch').textContent = interp.pitch.toFixed(2);
+    document.getElementById('valYaw').textContent = interp.yaw.toFixed(2);
+    document.getElementById('valY').textContent = interp.y.toFixed(2);
+  }
+}
+window.addEventListener('scroll', updateScroll, { passive: true });
+updateScroll();
+
+// Interpolate between keyframes at a given scroll position
+function interpolateKeyframes(t) {
+  if (keyframes.length === 0) return { pitch: -0.55 + t * 1.1, yaw: 0, y: -4.5 + t * 9 };
+  if (keyframes.length === 1) return { pitch: keyframes[0].pitch, yaw: keyframes[0].yaw, y: keyframes[0].y };
+
+  // Find surrounding keyframes
+  let lo = keyframes[0], hi = keyframes[keyframes.length - 1];
+  for (let i = 0; i < keyframes.length - 1; i++) {
+    if (t >= keyframes[i].scroll && t <= keyframes[i + 1].scroll) {
+      lo = keyframes[i];
+      hi = keyframes[i + 1];
+      break;
+    }
+  }
+
+  // Clamp to edges
+  if (t <= keyframes[0].scroll) return { pitch: keyframes[0].pitch, yaw: keyframes[0].yaw, y: keyframes[0].y };
+  if (t >= keyframes[keyframes.length - 1].scroll) {
+    const last = keyframes[keyframes.length - 1];
+    return { pitch: last.pitch, yaw: last.yaw, y: last.y };
+  }
+
+  const range = hi.scroll - lo.scroll;
+  const alpha = range > 0 ? (t - lo.scroll) / range : 0;
+  // Smooth step easing
+  const s = alpha * alpha * (3 - 2 * alpha);
+  return {
+    pitch: lo.pitch + (hi.pitch - lo.pitch) * s,
+    yaw:   lo.yaw   + (hi.yaw   - lo.yaw)   * s,
+    y:     lo.y     + (hi.y     - lo.y)     * s
+  };
+}
+
+// --- Panel controls ---
+const sliderPitch = document.getElementById('sliderPitch');
+const sliderYaw   = document.getElementById('sliderYaw');
+const sliderY     = document.getElementById('sliderY');
+
+sliderPitch.addEventListener('input', () => {
+  if (!isManualMode) { isManualMode = true; updateModeUI(); }
+  document.getElementById('valPitch').textContent = parseFloat(sliderPitch.value).toFixed(2);
+});
+sliderYaw.addEventListener('input', () => {
+  if (!isManualMode) { isManualMode = true; updateModeUI(); }
+  document.getElementById('valYaw').textContent = parseFloat(sliderYaw.value).toFixed(2);
+});
+sliderY.addEventListener('input', () => {
+  if (!isManualMode) { isManualMode = true; updateModeUI(); }
+  document.getElementById('valY').textContent = parseFloat(sliderY.value).toFixed(2);
+});
+
+function updateModeUI() {
+  const el = document.getElementById('modeIndicator');
+  if (isManualMode) {
+    el.className = 'mode-indicator mode-manual';
+    el.textContent = '🎛️ 手动调节模式';
+  } else {
+    el.className = 'mode-indicator mode-keyframe';
+    el.textContent = '▶️ 关键帧播放模式';
+  }
+}
+
+// Exposed globally for onclick handlers
+window.toggleMode = function() {
+  isManualMode = !isManualMode;
+  updateModeUI();
+};
+
+window.togglePanel = function() {
+  document.getElementById('debugPanel').classList.toggle('collapsed');
+  const btn = document.querySelector('#debugPanel .collapse-btn');
+  btn.textContent = document.getElementById('debugPanel').classList.contains('collapsed') ? '+' : '−';
+};
+
+window.saveKeyframe = function() {
+  const kf = {
+    scroll: parseFloat(scrollPercent.toFixed(4)),
+    pitch:  parseFloat(sliderPitch.value),
+    yaw:    parseFloat(sliderYaw.value),
+    y:      parseFloat(sliderY.value)
+  };
+  // Replace if same scroll position exists (within 1%)
+  const idx = keyframes.findIndex(k => Math.abs(k.scroll - kf.scroll) < 0.01);
+  if (idx >= 0) keyframes[idx] = kf;
+  else keyframes.push(kf);
+
+  keyframes.sort((a, b) => a.scroll - b.scroll);
+  persistKeyframes();
+  renderKeyframeList();
+  showToast('✅ 关键帧已保存 @ ' + (kf.scroll * 100).toFixed(1) + '%');
+};
+
+window.clearKeyframes = function() {
+  if (keyframes.length === 0) return;
+  keyframes = [];
+  persistKeyframes();
+  renderKeyframeList();
+  showToast('🗑️ 已清空所有关键帧');
+};
+
+window.deleteKeyframe = function(idx) {
+  keyframes.splice(idx, 1);
+  persistKeyframes();
+  renderKeyframeList();
+};
+
+window.jumpToKeyframe = function(idx) {
+  const kf = keyframes[idx];
+  sliderPitch.value = kf.pitch;
+  sliderYaw.value = kf.yaw;
+  sliderY.value = kf.y;
+  document.getElementById('valPitch').textContent = kf.pitch.toFixed(2);
+  document.getElementById('valYaw').textContent = kf.yaw.toFixed(2);
+  document.getElementById('valY').textContent = kf.y.toFixed(2);
+  isManualMode = true;
+  updateModeUI();
+  // Scroll to position
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  window.scrollTo({ top: kf.scroll * docH, behavior: 'smooth' });
+};
+
+window.exportKeyframes = function() {
+  if (keyframes.length === 0) { showToast('⚠️ 没有关键帧可导出'); return; }
+  const json = JSON.stringify(keyframes, null, 2);
+  navigator.clipboard.writeText(json).then(() => {
+    showToast('📋 JSON 已复制到剪贴板');
+  }).catch(() => {
+    // Fallback: show in prompt
+    prompt('复制以下 JSON:', json);
+  });
+};
+
+function showToast(msg) {
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  document.getElementById('debugPanel').appendChild(el);
+  setTimeout(() => el.remove(), 2000);
+}
+
+function renderKeyframeList() {
+  document.getElementById('kfCount').textContent = keyframes.length;
+  const body = document.getElementById('kfListBody');
+  body.innerHTML = keyframes.map((kf, i) =>
+    `<div class="kf-item" onclick="jumpToKeyframe(${i})">`
+    + `<span class="kf-scroll">${(kf.scroll*100).toFixed(1)}%</span>`
+    + `<span class="kf-vals">P:${kf.pitch.toFixed(2)} Y:${kf.yaw.toFixed(2)} H:${kf.y.toFixed(1)}</span>`
+    + `<button class="kf-del" onclick="event.stopPropagation();deleteKeyframe(${i})" title="删除">✕</button>`
+    + `</div>`
+  ).join('');
+}
+renderKeyframeList();
+
+// Initialize sliders to match scroll=0 keyframe
+sliderPitch.value = DEFAULT_KEYFRAMES[0].pitch;
+sliderYaw.value   = DEFAULT_KEYFRAMES[0].yaw;
+sliderY.value     = DEFAULT_KEYFRAMES[0].y;
+document.getElementById('valPitch').textContent = DEFAULT_KEYFRAMES[0].pitch.toFixed(2);
+document.getElementById('valYaw').textContent   = DEFAULT_KEYFRAMES[0].yaw.toFixed(2);
+document.getElementById('valY').textContent     = DEFAULT_KEYFRAMES[0].y.toFixed(2);
+updateModeUI();
+
+// Show panel with keyboard shortcut: Ctrl+Shift+D
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+    const p = document.getElementById('debugPanel');
+    p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  }
+});
+
+/* ========================================
+   ANIMATION LOOP
+   ======================================== */
+const clock = new THREE.Clock();
+
+function animate() {
+  requestAnimationFrame(animate);
+  const dt = clock.getDelta();
+  const elapsed = clock.getElapsedTime();
+
+  // Update face texture
+  drawFace(dt);
+
+  let targetY, targetPitch, targetYaw;
+
+  if (isManualMode) {
+    // Manual mode: directly use slider values
+    targetPitch = parseFloat(sliderPitch.value);
+    targetYaw   = parseFloat(sliderYaw.value);
+    targetY     = parseFloat(sliderY.value);
+  } else if (keyframes.length >= 2) {
+    // Keyframe playback: interpolate
+    const interp = interpolateKeyframes(scrollPercent);
+    targetPitch = interp.pitch;
+    targetYaw   = interp.yaw;
+    targetY     = interp.y;
+  } else {
+    // Default fallback: original formula
+    targetPitch = -0.55 + scrollPercent * 1.1;
+    targetYaw   = 0;
+    targetY     = -4.5 + scrollPercent * 9;
+  }
+
+  // Smooth damping
+  currentY     += (targetY - currentY) * 0.06;
+  currentPitch += (targetPitch - currentPitch) * 0.06;
+  currentYaw   += (targetYaw - currentYaw) * 0.06;
+
+  // Floating bob
+  const bob = Math.sin(elapsed * 1.3) * 0.05;
+  robot.position.y = currentY + bob;
+
+  // Apply head rotation
+  headPivot.rotation.x = currentPitch;
+  headPivot.rotation.y = currentYaw;
+
+  // Subtle Y-axis sway (breathing feel) — base rotation only
+  robot.rotation.y = -0.15 + Math.sin(elapsed * 0.5) * 0.04;
+
+  // LED pulse
+  ledGlow.intensity = 0.5 + Math.sin(elapsed * 2.5) * 0.25;
+
+  // Screen glow pulse
+  glowRimMat.opacity = 0.2 + Math.sin(elapsed * 1.8) * 0.1;
+
+  renderer.render(scene, camera);
+}
+animate();
+
+/* ========================================
+   RESIZE HANDLER
+   ======================================== */
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>

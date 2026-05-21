@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# 备份页（与 index.html 重复）
+index(1).html
+
+# 旧方案：Base64 音频 JS（已改用 assets/xiaowai-intro.wav）
+assets/embedded-audio.js

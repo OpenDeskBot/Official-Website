@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="homepage style light off">
+  <title>homepage style light off</title>
+  <!-- transparent canvas for reuse -->
+  <rect x="0" y="0" width="320" height="240" fill="transparent"/>
+  <!-- only two eyes and one mouth, no round face -->
+  <g id="avatar-core">
+    <!-- sleepy eyes -->
+    <g stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" fill="none">
+      <line x1="120" y1="102" x2="136" y2="102"/>
+      <line x1="184" y1="102" x2="200" y2="102"/>
+    </g>
+    <!-- rest mouth -->
+    <rect x="150.5" y="138.5" width="19" height="12" rx="4.2" ry="4.2" fill="none" stroke="#ffffff" stroke-width="3"/>
+  </g>
+  <!-- bulb goes up then fades -->
+  <g fill="#fde68a" stroke="#ffffff" stroke-width="1.2">
+    <path d="M 160 198 C 148 198 142 190 142 181 C 142 172 148 164 160 164 C 172 164 178 172 178 181 C 178 190 172 198 160 198 Z">
+      <animate attributeName="d" dur="3.2s" repeatCount="indefinite"
+               values="M 160 198 C 148 198 142 190 142 181 C 142 172 148 164 160 164 C 172 164 178 172 178 181 C 178 190 172 198 160 198 Z;M 160 176 C 151 176 146 170 146 163 C 146 156 151 150 160 150 C 169 150 174 156 174 163 C 174 170 169 176 160 176 Z;M 160 166 C 154 166 151 162 151 157 C 151 152 154 148 160 148 C 166 148 169 152 169 157 C 169 162 166 166 160 166 Z;M 160 166 C 154 166 151 162 151 157 C 151 152 154 148 160 148 C 166 148 169 152 169 157 C 169 162 166 166 160 166 Z"
+               keyTimes="0;0.45;0.74;1"/>
+      <animate attributeName="opacity" dur="3.2s" repeatCount="indefinite" values="1;1;0.9;0" keyTimes="0;0.62;0.82;1"/>
+    </path>
+  </g>
+  <!-- darkening overlay -->
+  <rect x="0" y="0" width="320" height="240" fill="#000000" opacity="0.12">
+    <animate attributeName="opacity" dur="3.2s" repeatCount="indefinite" values="0.12;0.28;0.48;0.58;0.12" keyTimes="0;0.4;0.72;0.9;1"/>
+  </rect>
+</svg>

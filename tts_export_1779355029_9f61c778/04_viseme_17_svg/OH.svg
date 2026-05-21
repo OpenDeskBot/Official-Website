@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 96" role="img" aria-label="OH oh 中圆">
+  <title>OH oh 中圆</title>
+  <!-- 这里使用透明背景，方便直接叠加到别的项目画布。 -->
+  <rect x="0" y="0" width="160" height="96" fill="transparent"/>
+  <!-- 这里沿用首页小人样式：两眼+一嘴，不绘制圆形大脸。 -->
+  <g fill="none" stroke="#ffffff" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="28" r="6"/>
+    <circle cx="105" cy="28" r="6"/>
+    <rect x="69.70" y="44.00" width="20.60" height="8.00" rx="3.60" ry="3.60"/>
+  </g>
+  <path d="M 70.94 45.20 L 89.06 45.20" stroke="#ffffff" stroke-width="1.5" opacity="0.00"/>
+  <path d="M 77.73 48.80 L 80.00 53.10 L 82.27 48.80 Z" fill="#ffffff" opacity="0.00"/>
+</svg>

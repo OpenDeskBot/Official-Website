@@ -1,4 +1,4 @@
-# GitHub Pages 静态部署：推送 main 分支后自动发布官网
+# GitHub Pages 静态部署：只上传官网所需文件，避免整仓打包失败
 name: Deploy Official Website
 
 on:
@@ -13,25 +13,34 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
 
+      - name: 打包静态站点（仅 index / assets / svg）
+        run: |
+          mkdir -p _site
+          cp index.html .nojekyll _site/
+          cp -r assets _site/
+          cp *.svg _site/ 2>/dev/null || true
+          echo "站点文件："
+          find _site -type f
+
       - name: 配置 Pages
         uses: actions/configure-pages@v4
 
-      - name: 上传静态站点
+      - name: 上传 Pages 产物
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
       - name: 部署到 GitHub Pages
         id: deployment
